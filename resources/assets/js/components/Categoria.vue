@@ -105,7 +105,7 @@
                                 <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                 <div class="col-md-9">
                                     <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de categoría">
-                                    <span class="help-block">(*) Ingrese el nombre de la categoría</span>
+                                    
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -114,6 +114,14 @@
                                     <input type="email" v-model="descripcion" class="form-control" placeholder="Descripcion">
                                 </div>
                             </div>
+                            <div v-show="errorCategoria==1" class="form-group row div-error">
+                                <div class="text-center text-error">
+                                    <div v-for="error in errorMostrarCategoria" :key="error" v-text="error">
+
+
+                                    </div>
+                                </div>    
+                            </div>    
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -163,7 +171,10 @@
                 arrayCategoria: [],
                 modal: 0,
                 tituloModal: '',
-                tipoAccion : 0
+                tipoAccion : 0,
+                errorCategoria: 0,
+                errorMostrarCategoria:[]
+
             }
         },
         methods: {
@@ -181,6 +192,11 @@
 
             },
             registrarCategoria() {
+
+                //si la validacion devuelve true o 1 , significa que hubo error    
+                if(this.validarCategoria()){
+                    return false
+                }
                 let me=this;
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
@@ -197,6 +213,21 @@
                 })
 
             },
+
+            validarCategoria(){
+                this.errorCategoria=0;
+                this.errorMostrarCategoria=[]
+                //si el nombre esta vacio, agrega el msj de error
+                if(this.nombre==''){
+                    this.errorMostrarCategoria.push("el nombre de la categoria no puede estar vacio")
+
+                }
+                if(this.errorMostrarCategoria.length){
+                    this.errorCategoria=1;
+                }
+                return this.errorCategoria;     
+            },
+
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
@@ -249,5 +280,16 @@
         opacity: 1 !important;
         position: absolute !important;
         background-color: black !important;
+    }
+
+    .div-error{
+        display:flex;
+        justify-content: center;
+
+    }
+    .text-error{
+        color:red !important;
+        font-weight: bold;
+
     }
 </style>
