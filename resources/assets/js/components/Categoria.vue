@@ -127,7 +127,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
                         <button type="button"  class="btn btn-primary" v-if="tipoAccion==1" @click="registrarCategoria">Guardar</button>
-                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==2">Actualizar</button>
+                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==2" @click="actualizarCategoria">Actualizar</button>
                         
                     </div>
                 </div>
@@ -166,6 +166,7 @@
     export default {
         data() {
             return {
+                categoria_id:0,
                 nombre: '',
                 descripcion: '',
                 arrayCategoria: [],
@@ -213,6 +214,29 @@
                 })
 
             },
+            actualizarCategoria(){
+
+                  //si la validacion devuelve true o 1 , significa que hubo error    
+                if(this.validarCategoria()){
+                    return false
+                }
+                let me=this;
+                //usamos el verbo post en vez de get
+                //primer parametro la ruta del controlador que registra
+                //segundo parametro enviaremos los valores q recibira el controlador
+                axios.put('/categoria/actualizar',
+                {'nombre':this.nombre,'descripcion':this.descripcion,'id':this.categoria_id
+                }).then(function(){
+                    me.cerrarModal();
+                    me.listarCategoria();
+        
+
+                }).catch(function(error){
+                    console.log(error);
+                })
+
+
+            },
 
             validarCategoria(){
                 this.errorCategoria=0;
@@ -253,7 +277,15 @@
                             }
                             case "actualizar":
                             {
-
+                                //mostrando por consola todo el objeto para verificar que estamos bien
+                                 //console.log(data);
+                                 this.modal=1;
+                                 this.tituloModal='Actualizar Categoria';
+                                 this.tipoAccion=2;
+                                 this.categoria_id=data.id;
+                                 this.nombre=data.nombre;
+                                 this.descripcion=data.descripcion;
+                                 break;      
                             }
 
                         }
