@@ -20,7 +20,18 @@ class CategoriaController extends Controller
           
         }}*/
            // $categorias=Categoria::all();
-            $categorias= Categoria::paginate(2);
+            
+            //lo obtenido a traves de AJAX
+            $buscar=$request->buscar;
+            $criterio=$request->criterio;
+            
+            if($buscar==''){
+                $categorias= Categoria::orderBy('id','desc')->paginate(3);
+               
+            }else{
+                $categorias= Categoria::where($criterio,'like','%'.$buscar.'%')->orderBy('id','desc')->paginate(3);
+            }
+            
 
           return ['pagination'=>[
               'total'=>$categorias->total(),
