@@ -8,12 +8,13 @@ use App\Articulo;
 class ArticuloController extends Controller
 {
     //
+    
     public function index(Request $request)
     {
-        if(!$request->ajax()){
+        /*if(!$request->ajax()){
             return redirect('/');
           
-        }
+        }*/
            // $categorias=Categoria::all();
             
             //lo obtenido a traves de AJAX

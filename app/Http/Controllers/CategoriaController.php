@@ -12,7 +12,20 @@ class CategoriaController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * 
+     
      */
+    public function selectCategoria(Request $request){
+        /*if($request->ajax()){
+            return redirect('/');
+        }*/
+        $categorias=Categoria::where('condicion','=',1)
+        ->select('id','nombre')->orderBy('nombre','asc')->get();
+
+        return ['categorias'=>$categorias];
+
+
+    }
     public function index(Request $request)
     {
         /*if(!$request->ajax()){
