@@ -2037,9 +2037,9 @@ __webpack_require__.r(__webpack_exports__);
 
       me.listarArticulo(page, buscar, criterio);
     },
-    registrarCategoria: function registrarCategoria() {
+    registrarArticulo: function registrarArticulo() {
       //si la validacion devuelve true o 1 , significa que hubo error    
-      if (this.validarCategoria()) {
+      if (this.validarArticulo()) {
         return false;
       }
 
@@ -2047,12 +2047,16 @@ __webpack_require__.r(__webpack_exports__);
       //primer parametro la ruta del controlador que registra
       //segundo parametro enviaremos los valores q recibira el controlador
 
-      axios.post('/categoria/registrar', {
+      axios.post('/articulo/registrar', {
+        'idcategoria': this.idcategoria,
+        'codigo': this.codigo,
         'nombre': this.nombre,
+        'stock': this.stock,
+        'precio_venta': this.precio_venta,
         'descripcion': this.descripcion
       }).then(function () {
         me.cerrarModal();
-        me.listarCategoria(1, '', 'nombre');
+        me.listarArticulo(1, '', 'nombre');
       }).catch(function (error) {
         console.log(error);
       });
@@ -2148,24 +2152,43 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    validarCategoria: function validarCategoria() {
-      this.errorCategoria = 0;
-      this.errorMostrarCategoria = []; //si el nombre esta vacio, agrega el msj de error
+    validarArticulo: function validarArticulo() {
+      this.errorArticulo = 0;
+      this.errorMostrarArticulo = []; //si el nombre esta vacio, agrega el msj de error
+
+      if (this.idcategoria == 0) {
+        this.errorMostrarArticulo.push("Seleccione una categoria");
+      }
 
       if (this.nombre == '') {
-        this.errorMostrarCategoria.push("el nombre de la categoria no puede estar vacio");
+        this.errorMostrarArticulo.push("El nombre del articulo no puede estar vacio");
       }
 
-      if (this.errorMostrarCategoria.length) {
-        this.errorCategoria = 1;
+      if (this.precio_venta == '') {
+        this.errorMostrarArticulo.push("Ingrese precio de venta");
       }
 
-      return this.errorCategoria;
+      if (this.stock == '') {
+        this.errorMostrarArticulo.push("Ingrese Stock");
+      }
+
+      if (this.errorMostrarArticulo.length) {
+        this.errorArticulo = 1;
+      }
+
+      return this.errorArticulo;
     },
     cerrarModal: function cerrarModal() {
       this.modal = 0;
       this.tituloModal = '';
+      this.idcategoria = 0;
+      this.nombre_categoria = '';
+      this.codigo = 0;
       this.nombre = '';
+      this.precio_venta = 0;
+      this.stock = 0;
+      this.descripcion = '';
+      this.errorArticulo = 0;
       this.descripcion = '';
     },
     abrirModal: function abrirModal(modelo, accion) {
@@ -2179,7 +2202,12 @@ __webpack_require__.r(__webpack_exports__);
                 {
                   this.modal = 1;
                   this.tituloModal = 'Registrar Articulo';
+                  this.idcategoria = 0;
+                  this.nombre_categoria = '';
+                  this.codigo = 0;
                   this.nombre = '';
+                  this.precio_venta = '';
+                  this.stock = 0;
                   this.descripcion = '';
                   this.tipoAccion = 1;
                   break;
@@ -2192,9 +2220,13 @@ __webpack_require__.r(__webpack_exports__);
                   this.modal = 1;
                   this.tituloModal = 'Actualizar Articulo';
                   this.tipoAccion = 2;
-                  this.categoria_id = data.id;
-                  this.nombre = data.nombre;
-                  this.descripcion = data.descripcion;
+                  this.articulo_id = data['id'];
+                  this.idcategoria = data['idcategoria'];
+                  this.codigo = data['codigo'];
+                  this.nombre = data['nombre'];
+                  this.stock = data['stock'];
+                  this.precio_venta = data['precio_venta'];
+                  this.descripcion = data['descripcion'];
                   break;
                 }
             }
@@ -39007,7 +39039,11 @@ var render = function() {
                       {
                         staticClass: "btn btn-primary",
                         attrs: { type: "button" },
-                        on: { click: _vm.registrarCategoria }
+                        on: {
+                          click: function($event) {
+                            return _vm.registrarArticulo()
+                          }
+                        }
                       },
                       [_vm._v("Guardar")]
                     )
@@ -39019,7 +39055,11 @@ var render = function() {
                       {
                         staticClass: "btn btn-primary",
                         attrs: { type: "button" },
-                        on: { click: _vm.actualizarCategoria }
+                        on: {
+                          click: function($event) {
+                            return _vm.actualizarArticulo()
+                          }
+                        }
                       },
                       [_vm._v("Actualizar")]
                     )
