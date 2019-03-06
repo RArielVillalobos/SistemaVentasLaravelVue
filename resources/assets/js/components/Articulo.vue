@@ -44,7 +44,7 @@
                         <tbody>
                         <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                             <td>
-                                <button type="button" @click="abrirModal('categoria','actualizar',articulo)" class="btn btn-warning btn-sm">
+                                <button type="button" @click="abrirModal('articulo','actualizar',articulo)" class="btn btn-warning btn-sm">
                                     <i class="icon-pencil"></i>
                                 </button> &nbsp;
                                 <template v-if="articulo.condicion" >
@@ -318,21 +318,29 @@
                 })
 
             },
-            actualizarCategoria(){
+            actualizarArticulo(){
 
                   //si la validacion devuelve true o 1 , significa que hubo error    
-                if(this.validarCategoria()){
+                if(this.validarArticulo()){
                     return false
                 }
                 let me=this;
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
                 //segundo parametro enviaremos los valores q recibira el controlador
-                axios.put('/categoria/actualizar',
-                {'nombre':this.nombre,'descripcion':this.descripcion,'id':this.categoria_id
+                axios.put('/articulo/actualizar',
+                {
+                'id':this.articulo_id,
+                'nombre':this.nombre,
+                'idcategoria':this.idcategoria,
+                'codigo':this.codigo,
+                'stock':this.stock,
+                'precio_venta':this.precio_venta,
+                'descripcion':this.descripcion,
+                
                 }).then(function(){
                     me.cerrarModal();
-                    me.listarCategoria(1,'','nombre');
+                    me.listarArticulo(1,'','nombre');
         
 
                 }).catch(function(error){
@@ -518,6 +526,7 @@
                                  this.idcategoria=data['idcategoria'];
                                  this.codigo=data['codigo'];
                                  this.nombre=data['nombre'];
+                                 this.nombre_categoria=data['nombre_categoria']
                                  this.stock=data['stock'];
                                  this.precio_venta=data['precio_venta'];
                                  this.descripcion=data['descripcion'];

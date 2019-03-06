@@ -249,17 +249,17 @@
                 })
 
             },
-            actualizarCategoria(){
+            actualizarArticulo(){
 
                   //si la validacion devuelve true o 1 , significa que hubo error    
-                if(this.validarCategoria()){
+                if(this.validarArticulo()){
                     return false
                 }
                 let me=this;
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
                 //segundo parametro enviaremos los valores q recibira el controlador
-                axios.put('/categoria/actualizar',
+                axios.put('/articulo/actualizar',
                 {'nombre':this.nombre,'descripcion':this.descripcion,'id':this.categoria_id
                 }).then(function(){
                     me.cerrarModal();
