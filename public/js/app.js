@@ -2086,7 +2086,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    desactivarCategoria: function desactivarCategoria(id) {
+    desactivarArticulo: function desactivarArticulo(id) {
       var _this = this;
 
       var swalWithBootstrapButtons = Swal.mixin({
@@ -2095,7 +2095,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsStyling: false
       });
       swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de desactivar esta categoria?',
+        title: 'Estas seguro de desactivar este Articulo?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -2107,10 +2107,10 @@ __webpack_require__.r(__webpack_exports__);
           //primer parametro la ruta del controlador que registra
           //segundo parametro enviaremos los valores q recibira el controlador
 
-          axios.put('/categoria/desactivar', {
+          axios.put('/articulo/desactivar', {
             'id': id
           }).then(function () {
-            me.listarCategoria(1, '', 'nombre');
+            me.listarArticulo(1, '', 'nombre');
             swalWithBootstrapButtons.fire('Desactivado!', 'El registro ha sido desactivado.', 'success');
           }).catch(function (error) {
             console.log(error);
@@ -2121,7 +2121,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    activarCategoria: function activarCategoria(id) {
+    activarArticulo: function activarArticulo(id) {
       var _this2 = this;
 
       var swalWithBootstrapButtons = Swal.mixin({
@@ -2130,7 +2130,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsStyling: false
       });
       swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de activar esta categoria?',
+        title: 'Estas seguro de activar este Articulo?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -2142,10 +2142,10 @@ __webpack_require__.r(__webpack_exports__);
           //primer parametro la ruta del controlador que registra
           //segundo parametro enviaremos los valores q recibira el controlador
 
-          axios.put('/categoria/activar', {
+          axios.put('/articulo/activar', {
             'id': id
           }).then(function () {
-            me.listarCategoria(1, '', 'nombre');
+            me.listarArticulo(1, '', 'nombre');
             swalWithBootstrapButtons.fire('Activado!', 'El registro ha sido activado.', 'success');
           }).catch(function (error) {
             console.log(error);
@@ -38540,9 +38540,7 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.desactivarCategoria(
-                                        articulo.id
-                                      )
+                                      return _vm.desactivarArticulo(articulo.id)
                                     }
                                   }
                                 },
@@ -38557,7 +38555,7 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.activarCategoria(articulo.id)
+                                      return _vm.activarArticulo(articulo.id)
                                     }
                                   }
                                 },

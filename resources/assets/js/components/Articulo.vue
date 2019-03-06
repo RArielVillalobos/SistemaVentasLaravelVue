@@ -48,13 +48,13 @@
                                     <i class="icon-pencil"></i>
                                 </button> &nbsp;
                                 <template v-if="articulo.condicion" >
-                                    <button type="button" class="btn btn-danger btn-sm" @click="desactivarCategoria(articulo.id)">
+                                    <button type="button" class="btn btn-danger btn-sm" @click="desactivarArticulo(articulo.id)">
                                         <i class="icon-trash"></i>
                                     </button>    
                                     
                                 </template>
                                 <template v-else>
-                                    <button type="button" class="btn btn-success btn-sm" @click="activarCategoria(articulo.id)">
+                                    <button type="button" class="btn btn-success btn-sm" @click="activarArticulo(articulo.id)">
                                         <i class="icon-trash"></i>
                                     </button>
                                     <i class="icon-check"></i>
@@ -350,7 +350,7 @@
 
             },
 
-            desactivarCategoria(id){
+            desactivarArticulo(id){
                 const swalWithBootstrapButtons = Swal.mixin({
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger',
@@ -358,7 +358,7 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                title: 'Estas seguro de desactivar esta categoria?',
+                title: 'Estas seguro de desactivar este Articulo?',
                 
                 type: 'warning',
                 showCancelButton: true,
@@ -371,11 +371,11 @@
                     //usamos el verbo post en vez de get
                     //primer parametro la ruta del controlador que registra
                     //segundo parametro enviaremos los valores q recibira el controlador
-                    axios.put('/categoria/desactivar',
+                    axios.put('/articulo/desactivar',
                     {'id':id
                     }).then(function(){
                         
-                        me.listarCategoria(1,'','nombre');
+                        me.listarArticulo(1,'','nombre');
                         swalWithBootstrapButtons.fire(
                         'Desactivado!',
                         'El registro ha sido desactivado.',
@@ -401,7 +401,7 @@
                 }
                 })
             },
-            activarCategoria(id){
+            activarArticulo(id){
                 const swalWithBootstrapButtons = Swal.mixin({
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger',
@@ -409,7 +409,7 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                title: 'Estas seguro de activar esta categoria?',
+                title: 'Estas seguro de activar este Articulo?',
                 
                 type: 'warning',
                 showCancelButton: true,
@@ -422,11 +422,11 @@
                     //usamos el verbo post en vez de get
                     //primer parametro la ruta del controlador que registra
                     //segundo parametro enviaremos los valores q recibira el controlador
-                    axios.put('/categoria/activar',
+                    axios.put('/articulo/activar',
                     {'id':id
                     }).then(function(){
                         
-                        me.listarCategoria(1,'','nombre');
+                        me.listarArticulo(1,'','nombre');
                         swalWithBootstrapButtons.fire(
                         'Activado!',
                         'El registro ha sido activado.',
