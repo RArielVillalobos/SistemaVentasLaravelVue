@@ -122,8 +122,10 @@
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="email-input">Codigo</label>
+
                                 <div class="col-md-9">
                                     <input type="text" v-model="codigo" class="form-control" placeholder="Codigo de Barra">
+                                    <barcode :value="codigo" :options="{format:'EAN-12'}">Generando Codigo de Barras</barcode>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -176,6 +178,7 @@
     </main>
 </template>
 <script>
+import VueBarcode from 'vue-barcode';
     export default {
         data() {
             return {
@@ -207,6 +210,9 @@
                 buscar:'',
                 arrayCategoria:[]
             }
+        },
+         components: {
+            'barcode': VueBarcode
         },
         //propiedad computada
         computed:{
