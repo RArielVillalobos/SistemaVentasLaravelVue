@@ -2503,7 +2503,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    actualizarArticulo: function actualizarArticulo() {
+    actualizarCategoria: function actualizarCategoria() {
       //si la validacion devuelve true o 1 , significa que hubo error    
       if (this.validarArticulo()) {
         return false;

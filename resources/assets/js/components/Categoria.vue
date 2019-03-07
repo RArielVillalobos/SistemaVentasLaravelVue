@@ -249,7 +249,7 @@
                 })
 
             },
-            actualizarArticulo(){
+            actualizarCategoria(){
 
                   //si la validacion devuelve true o 1 , significa que hubo error    
                 if(this.validarArticulo()){
