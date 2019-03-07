@@ -25,7 +25,7 @@ class ClienteController extends Controller
                 $personas= Persona::orderBy('id','desc')->paginate(3);
                
             }else{
-                $personas= Categoria::where($criterio,'like','%'.$buscar.'%')->orderBy('id','desc')->paginate(3);
+                $personas= Persona::where($criterio,'like','%'.$buscar.'%')->orderBy('id','desc')->paginate(3);
             }
             
 
