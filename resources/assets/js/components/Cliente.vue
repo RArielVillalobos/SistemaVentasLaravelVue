@@ -19,7 +19,7 @@
                             <div class="input-group">
                                 <select class="form-control col-md-3" v-model="criterio">
                                     <option value="nombre">Nombre</option>
-                                    <option value="num_documento">Num de Documento</option>
+                                    <option value="numero_documento">Num de Documento</option>
                                     <option value="email">Email</option>
                                     <option value="telefono">Telefono</option>
                                 </select>
@@ -94,19 +94,53 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                 <div class="col-md-9">
-                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de categoría">
+                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">
                                     
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
+                                <label class="col-md-3 form-control-label" for="text-input">Tipo Doc</label>
                                 <div class="col-md-9">
-                                    <input type="email" v-model="descripcion" class="form-control" placeholder="Descripcion">
+                                   <select v-model="tipo_documento" class="form-control">
+                                        <option value="DNI">DNI</option>
+                                        <option value="RUC">RUC</option>
+                                        <option value="PASS">PASS</option>
+                                    </select>  
+                                </div>
+                                   
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Numero Doc</label>
+                                <div class="col-md-9">
+                                    <input type="text" v-model="numero_documento" class="form-control" placeholder="Número Documento">
+                                    
                                 </div>
                             </div>
-                            <div v-show="errorCategoria==1" class="form-group row div-error">
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Dirección</label>
+                                <div class="col-md-9">
+                                    <input type="text" v-model="direccion" class="form-control" placeholder="Dirección">
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Teléfono</label>
+                                <div class="col-md-9">
+                                    <input type="text" v-model="telefono" class="form-control" placeholder="Telefono">
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Email</label>
+                                <div class="col-md-9">
+                                    <input type="text" v-model="email" class="form-control" placeholder="Email">
+                                    
+                                </div>
+                            </div>
+                            
+                            <div v-show="errorPersona==1" class="form-group row div-error">
                                 <div class="text-center text-error">
-                                    <div v-for="error in errorMostrarCategoria" :key="error" v-text="error">
+                                    <div v-for="error in errorMostrarPersona" :key="error" v-text="error">
 
 
                                     </div>
@@ -116,8 +150,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==1" @click="registrarCategoria">Guardar</button>
-                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==2" @click="actualizarCategoria">Actualizar</button>
+                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==1" @click="registrarPersona">Guardar</button>
+                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==2" @click="actualizarPersona">Actualizar</button>
                         
                     </div>
                 </div>
@@ -198,6 +232,8 @@
                 axios.get(url).then(function (response) {
                     var respuesta=response.data;
 
+                    
+
                     // handle success
                     me.arrayPersona = respuesta.personas.data;
                     me.pagination=respuesta.pagination;
@@ -222,21 +258,27 @@
 
 
             ,
-            registrarCategoria() {
+            registrarPersona() {
 
                 //si la validacion devuelve true o 1 , significa que hubo error    
-                if(this.validarCategoria()){
+                if(this.validarPersona()){
                     return false
                 }
                 let me=this;
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
                 //segundo parametro enviaremos los valores q recibira el controlador
-                axios.post('/categoria/registrar',
-                {'nombre':this.nombre,'descripcion':this.descripcion
+                axios.post('/cliente/registrar',
+                {'nombre':this.nombre,
+                 'tipo_doc':this.tipo_documento,
+                 'num_documento':this.numero_documento,
+                'direccion':this.direccion,
+                'telefono':this.telefono,
+                'email':this.email
+
                 }).then(function(){
                     me.cerrarModal();
-                    me.listarCategoria(1,'','nombre');
+                    me.listarPersona(1,'','nombre');
         
 
                 }).catch(function(error){
@@ -244,21 +286,28 @@
                 })
 
             },
-            actualizarArticulo(){
+            actualizarPersona(){
 
                   //si la validacion devuelve true o 1 , significa que hubo error    
-                if(this.validarArticulo()){
+                if(this.validarPersona()){
                     return false
                 }
                 let me=this;
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
                 //segundo parametro enviaremos los valores q recibira el controlador
-                axios.put('/articulo/actualizar',
-                {'nombre':this.nombre,'descripcion':this.descripcion,'id':this.categoria_id
+                axios.put('/cliente/actualizar',
+                {'nombre':this.nombre,
+                'tipo_doc':this.tipo_documento,
+                'num_documento':this.numero_documento,
+                'direccion':this.direccion,
+                'telefono':this.telefono,
+                'email':this.email,
+                'descripcion':this.descripcion,
+                'id':this.persona_id
                 }).then(function(){
                     me.cerrarModal();
-                    me.listarCategoria(1,'','nombre');
+                    me.listarPersona(1,'','nombre');
         
 
                 }).catch(function(error){
@@ -269,39 +318,50 @@
             },
 
             
-            validarCategoria(){
-                this.errorCategoria=0;
-                this.errorMostrarCategoria=[]
+            validarPersona(){
+                this.errorPersona=0;
+                this.errorMostrarPersona=[]
                 //si el nombre esta vacio, agrega el msj de error
                 if(this.nombre==''){
-                    this.errorMostrarCategoria.push("el nombre de la categoria no puede estar vacio")
+                    this.errorMostrarPersona.push("el nombre de la categoria no puede estar vacio");
 
                 }
-                if(this.errorMostrarCategoria.length){
-                    this.errorCategoria=1;
+                
+                if(this.errorMostrarPersona.length){
+                    this.errorPersona=1;
                 }
-                return this.errorCategoria;     
+                return this.errorPersona;     
             },
 
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
-                this.descripcion='';
+                this.tipo_documento='DNI',
+                this.numero_documento='',
+                this.direccion='',
+                this.telefono='',
+                this.email='',
+                this.errorPersona=0;
+                
 
             },
             abrirModal(modelo, accion, data = []) {
 
                 switch (modelo){
-                    case 'categoria':
+                    case 'persona':
                     {
                         switch (accion){
                             case'registrar':
                             {
                                 this.modal=1;
-                                this.tituloModal='Registrar Categoria';
+                                this.tituloModal='Registrar Cliente';
                                 this.nombre='';
-                                this.descripcion='';
+                                this.tipo_documento='DNI',
+                                this.numero_documento='',
+                                this.direccion='',
+                                this.telefono='',
+                                this.email='',
                                 this.tipoAccion = 1;
                                 break;
 
@@ -311,11 +371,15 @@
                                 //mostrando por consola todo el objeto para verificar que estamos bien
                                  //console.log(data);
                                  this.modal=1;
-                                 this.tituloModal='Actualizar Categoria';
+                                 this.tituloModal='Actualizar Cliente';
                                  this.tipoAccion=2;
-                                 this.categoria_id=data.id;
+                                 this.persona_id=data.id;
                                  this.nombre=data.nombre;
-                                 this.descripcion=data.descripcion;
+                                 this.tipo_documento=data.tipo_documento;
+                                 this.numero_documento=data.num_documento;
+                                 this.direccion=data.direccion;
+                                 this.telefono=data.telefono;
+                                 this.email=data.email;
                                  break;      
                             }
 
