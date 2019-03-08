@@ -69,6 +69,7 @@ class ClienteController extends Controller
           
         }
          $persona=Persona::findOrFail($request->id);
+         $persona->nombre=$request->nombre;
          $persona->tipo_documento=$request->tipo_doc;
          $persona->num_documento=$request->num_documento;
          $persona->direccion=$request->direccion;
