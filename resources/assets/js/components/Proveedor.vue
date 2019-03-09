@@ -139,6 +139,20 @@
                                     
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Contacto</label>
+                                <div class="col-md-9">
+                                    <input type="text" v-model="contacto" class="form-control" placeholder="Nombre de Contacto">
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Telefono de Contacto</label>
+                                <div class="col-md-9">
+                                    <input type="text" v-model="telefono_contacto" class="form-control" placeholder="Telefono de Contacto">
+                                    
+                                </div>
+                            </div>
                             
                             <div v-show="errorPersona==1" class="form-group row div-error">
                                 <div class="text-center text-error">
@@ -152,8 +166,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==1" @click="registrarPersona">Guardar</button>
-                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==2" @click="actualizarPersona">Actualizar</button>
+                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==1" @click="registrarPersona()">Guardar</button>
+                        <button type="button"  class="btn btn-primary" v-if="tipoAccion==2" @click="actualizarPersona()">Actualizar</button>
                         
                     </div>
                 </div>
@@ -236,8 +250,7 @@
                 axios.get(url).then(function (response) {
                     var respuesta=response.data;
 
-                    console.log(respuesta);
-
+                    
                     // handle success
                     me.arrayPersona = respuesta.proveedores.data;
                     me.pagination=respuesta.pagination;
@@ -272,13 +285,15 @@
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
                 //segundo parametro enviaremos los valores q recibira el controlador
-                axios.post('/cliente/registrar',
+                axios.post('/proveedor/registrar',
                 {'nombre':this.nombre,
                  'tipo_doc':this.tipo_documento,
                  'num_documento':this.numero_documento,
                 'direccion':this.direccion,
                 'telefono':this.telefono,
-                'email':this.email
+                'email':this.email,
+                'contacto':this.contacto,
+                'telefono_contacto':this.telefono_contacto
 
                 }).then(function(){
                     me.cerrarModal();
@@ -300,7 +315,7 @@
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
                 //segundo parametro enviaremos los valores q recibira el controlador
-                axios.put('/cliente/actualizar',
+                axios.put('/proveedor/actualizar',
                 {'nombre':this.nombre,
                 'tipo_doc':this.tipo_documento,
                 'num_documento':this.numero_documento,
@@ -308,6 +323,8 @@
                 'telefono':this.telefono,
                 'email':this.email,
                 'descripcion':this.descripcion,
+                'contacto':this.contacto,
+                'telefono_contacto':this.telefono_contacto,
                 'id':this.persona_id
                 }).then(function(){
                     me.cerrarModal();
@@ -327,7 +344,7 @@
                 this.errorMostrarPersona=[]
                 //si el nombre esta vacio, agrega el msj de error
                 if(this.nombre==''){
-                    this.errorMostrarPersona.push("el nombre de la categoria no puede estar vacio");
+                    this.errorMostrarPersona.push("el nombre  no puede estar vacio");
 
                 }
                 
@@ -341,11 +358,13 @@
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
-                this.tipo_documento='DNI',
+                this.tipo_documento='RUC',
                 this.numero_documento='',
                 this.direccion='',
                 this.telefono='',
                 this.email='',
+                this.telefono_contacto='',
+                this.contacto='';
                 this.errorPersona=0;
                 
 
@@ -359,13 +378,15 @@
                             case'registrar':
                             {
                                 this.modal=1;
-                                this.tituloModal='Registrar Cliente';
+                                this.tituloModal='Registrar Proveedor';
                                 this.nombre='';
-                                this.tipo_documento='DNI',
+                                this.tipo_documento='RUC',
                                 this.numero_documento='',
                                 this.direccion='',
                                 this.telefono='',
                                 this.email='',
+                                this.telefono_contacto='',
+                                this.contacto='';
                                 this.tipoAccion = 1;
                                 break;
 
@@ -375,7 +396,7 @@
                                 //mostrando por consola todo el objeto para verificar que estamos bien
                                  //console.log(data);
                                  this.modal=1;
-                                 this.tituloModal='Actualizar Cliente';
+                                 this.tituloModal='Actualizar Proveedor';
                                  this.tipoAccion=2;
                                  this.persona_id=data.id;
                                  this.nombre=data.nombre;
@@ -384,6 +405,8 @@
                                  this.direccion=data.direccion;
                                  this.telefono=data.telefono;
                                  this.email=data.email;
+                                 this.telefono_contacto=data.telefono_contacto;
+                                 this.contacto=data.contacto;
                                  break;      
                             }
 

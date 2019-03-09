@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use illuminate\Support\Facades\DB;
+
 use App\Proveedor;
 use App\Persona;
+use Illuminate\Support\Facades\DB;
 
 class ProveedorController extends Controller
 {
@@ -75,8 +76,9 @@ class ProveedorController extends Controller
             $proveedor->save();
             DB::commit();
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
+        
             
         }
         
