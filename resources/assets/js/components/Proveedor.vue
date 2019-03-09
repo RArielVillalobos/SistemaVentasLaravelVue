@@ -341,7 +341,7 @@
             
             validarPersona(){
                 this.errorPersona=0;
-                this.errorMostrarPersona=[]
+                this.errorMostrarPersona=[];
                 //si el nombre esta vacio, agrega el msj de error
                 if(this.nombre==''){
                     this.errorMostrarPersona.push("el nombre  no puede estar vacio");
