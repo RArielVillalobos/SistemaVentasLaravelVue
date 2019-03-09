@@ -28,7 +28,7 @@ class UserController extends Controller
                 ->select('personas.id','personas.nombre','personas.tipo_documento',
                     'personas.num_documento','personas.direccion','personas.telefono',
                     'personas.email','users.usuario','users.password','users.condicion',
-                    'users.idrol','roles.nombre as rol ')
+                    'users.idrol','roles.nombre as rol')
                 ->orderBy('personas.id','desc')->paginate(3);
 
         }else{
@@ -37,7 +37,7 @@ class UserController extends Controller
                 ->select('personas.id','personas.nombre','personas.tipo_documento',
                     'personas.num_documento','personas.direccion','personas.telefono',
                     'personas.email','users.usuario','users.password','users.condicion',
-                    'users.idrol','roles.nombre as rol ')->
+                    'users.idrol','roles.nombre as rol')->
                 where('personas.'.$criterio,'like','%'.$buscar.'%')->orderBy('personas.id','desc')->paginate(3);
         }
 
