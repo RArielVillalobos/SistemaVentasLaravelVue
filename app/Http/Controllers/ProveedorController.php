@@ -12,10 +12,10 @@ class ProveedorController extends Controller
     //
     public function index(Request $request)
     {
-        if(!$request->ajax()){
+        /*if(!$request->ajax()){
             return redirect('/');
           
-        }}
+        }*/
            
             //lo obtenido a traves de AJAX
             $buscar=$request->buscar;
@@ -33,7 +33,7 @@ class ProveedorController extends Controller
                 ->select('personas.id','personas.nombre','personas.tipo_documento',
                 'personas.num_documento','personas.direccion','personas.telefono',
                 'personas.email','proveedores.contacto','proveedores.telefono_contacto')->
-                where('personas'.$criterio,'like','%'.$buscar.'%')->orderBy('personas.id','desc')->paginate(3);
+                where('personas.'.$criterio,'like','%'.$buscar.'%')->orderBy('personas.id','desc')->paginate(3);
             }
             
 
