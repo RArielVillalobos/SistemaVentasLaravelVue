@@ -3772,12 +3772,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       persona_id: 0,
       nombre: '',
-      tipo_documento: '',
+      tipo_documento: 'DNI',
       numero_documento: '',
       direccion: '',
       telefono: '',
@@ -3786,6 +3813,7 @@ __webpack_require__.r(__webpack_exports__);
       password: '',
       idrol: 0,
       arrayPersona: [],
+      arrayRol: [],
       modal: 0,
       tituloModal: '',
       tipoAccion: 0,
@@ -3844,8 +3872,19 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data; // handle success
 
         me.arrayPersona = respuesta.personas.data;
-        console.log(me.arrayPersona[0].rol);
         me.pagination = respuesta.pagination;
+      }).catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+    },
+    selectRol: function selectRol() {
+      var me = this;
+      var url = '/rol/selectRol';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data; // handle success
+
+        me.arrayRol = respuesta.roles;
       }).catch(function (error) {
         // handle error
         console.log(error);
@@ -3931,11 +3970,20 @@ __webpack_require__.r(__webpack_exports__);
       this.modal = 0;
       this.tituloModal = '';
       this.nombre = '';
-      this.tipo_documento = 'RUC', this.numero_documento = '', this.direccion = '', this.telefono = '', this.email = '', this.telefono_contacto = '', this.contacto = '';
+      this.tipo_documento = 'DNI';
+      this.numero_documento = '';
+      this.direccion = '';
+      this.telefono = '';
+      this.email = '';
+      this.telefono_contacto = '';
+      this.usuario = '';
+      this.password = '';
+      this.idrol = 0;
       this.errorPersona = 0;
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      this.selectRol();
 
       switch (modelo) {
         case 'persona':
@@ -3944,9 +3992,16 @@ __webpack_require__.r(__webpack_exports__);
               case 'registrar':
                 {
                   this.modal = 1;
-                  this.tituloModal = 'Registrar Proveedor';
+                  this.tituloModal = 'Registrar Usuario';
                   this.nombre = '';
-                  this.tipo_documento = 'RUC', this.numero_documento = '', this.direccion = '', this.telefono = '', this.email = '', this.telefono_contacto = '', this.contacto = '';
+                  this.tipo_documento = 'DNI';
+                  this.numero_documento = '';
+                  this.direccion = '';
+                  this.telefono = '';
+                  this.email = '';
+                  this.usuario = '';
+                  this.password = '';
+                  this.idrol = 0;
                   this.tipoAccion = 1;
                   break;
                 }
@@ -3956,7 +4011,7 @@ __webpack_require__.r(__webpack_exports__);
                   //mostrando por consola todo el objeto para verificar que estamos bien
                   //console.log(data);
                   this.modal = 1;
-                  this.tituloModal = 'Actualizar Proveedor';
+                  this.tituloModal = 'Actualizar Usuario';
                   this.tipoAccion = 2;
                   this.persona_id = data.id;
                   this.nombre = data.nombre;
@@ -3965,8 +4020,9 @@ __webpack_require__.r(__webpack_exports__);
                   this.direccion = data.direccion;
                   this.telefono = data.telefono;
                   this.email = data.email;
-                  this.telefono_contacto = data.telefono_contacto;
-                  this.contacto = data.contacto;
+                  this.usuario = data.usuario;
+                  this.password = data.password;
+                  this.idrol = data.idrol;
                   break;
                 }
             }
@@ -47462,6 +47518,135 @@ var render = function() {
                                 return
                               }
                               _vm.email = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Rol(*)")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.idrol,
+                                expression: "idrol"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.idrol = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seleccione Rol")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.arrayRol, function(rol) {
+                              return _c("option", {
+                                key: rol.id,
+                                domProps: {
+                                  value: rol.id,
+                                  textContent: _vm._s(rol.nombre)
+                                }
+                              })
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Usuario(*)")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.usuario,
+                              expression: "usuario"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "Usuario" },
+                          domProps: { value: _vm.usuario },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.usuario = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Password(*)")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.password,
+                              expression: "password"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "password", placeholder: "Password" },
+                          domProps: { value: _vm.password },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.password = $event.target.value
                             }
                           }
                         })

@@ -142,6 +142,33 @@
                                     
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Rol(*)</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" v-model="idrol">
+                                        <option value="0">Seleccione Rol</option>
+                                        <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre">
+
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Usuario(*)</label>
+                                <div class="col-md-9">
+                                    <input type="text" v-model="usuario" class="form-control" placeholder="Usuario">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="text-input">Password(*)</label>
+                                <div class="col-md-9">
+                                    <input type="password" v-model="password" class="form-control" placeholder="Password">
+
+                                </div>
+                            </div>
 
 
                             
@@ -176,7 +203,7 @@
             return {
                 persona_id:0,
                 nombre: '',
-                tipo_documento: '',
+                tipo_documento:'DNI',
                 numero_documento:'',
                 direccion:'',
                 telefono:'',
@@ -185,6 +212,7 @@
                 password:'',
                 idrol:0,
                 arrayPersona:[],
+                arrayRol:[],
                 modal: 0,
                 tituloModal: '',
                 tipoAccion : 0,
@@ -247,13 +275,29 @@
                     // handle success
                     me.arrayPersona = respuesta.personas.data;
 
-                   
+
 
                     me.pagination=respuesta.pagination;
                 })
                     .catch(function (error) {
                         // handle error
                         
+                        console.log(error);
+                    });
+
+            },
+            selectRol(){
+                let me = this;
+                var url='/rol/selectRol';
+                axios.get(url).then(function (response) {
+                    var respuesta=response.data;
+                    // handle success
+                    me.arrayRol = respuesta.roles
+
+                })
+                    .catch(function (error) {
+                        // handle error
+
                         console.log(error);
                     });
 
@@ -354,18 +398,22 @@
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
-                this.tipo_documento='RUC',
-                this.numero_documento='',
-                this.direccion='',
-                this.telefono='',
-                this.email='',
-                this.telefono_contacto='',
-                this.contacto='';
+                this.tipo_documento='DNI';
+                this.numero_documento='';
+                this.direccion='';
+                this.telefono='';
+                this.email='';
+                this.telefono_contacto='';
+                this.usuario='';
+                this.password='';
+                this.idrol=0;
+
                 this.errorPersona=0;
                 
 
             },
             abrirModal(modelo, accion, data = []) {
+                this.selectRol();
 
                 switch (modelo){
                     case 'persona':
@@ -374,15 +422,16 @@
                             case'registrar':
                             {
                                 this.modal=1;
-                                this.tituloModal='Registrar Proveedor';
+                                this.tituloModal='Registrar Usuario';
                                 this.nombre='';
-                                this.tipo_documento='RUC',
-                                this.numero_documento='',
-                                this.direccion='',
-                                this.telefono='',
-                                this.email='',
-                                this.telefono_contacto='',
-                                this.contacto='';
+                                this.tipo_documento='DNI';
+                                this.numero_documento='';
+                                this.direccion='';
+                                this.telefono='';
+                                this.email='';
+                                this.usuario='';
+                                this.password='';
+                                this.idrol=0;
                                 this.tipoAccion = 1;
                                 break;
 
@@ -392,7 +441,7 @@
                                 //mostrando por consola todo el objeto para verificar que estamos bien
                                  //console.log(data);
                                  this.modal=1;
-                                 this.tituloModal='Actualizar Proveedor';
+                                 this.tituloModal='Actualizar Usuario';
                                  this.tipoAccion=2;
                                  this.persona_id=data.id;
                                  this.nombre=data.nombre;
@@ -401,8 +450,9 @@
                                  this.direccion=data.direccion;
                                  this.telefono=data.telefono;
                                  this.email=data.email;
-                                 this.telefono_contacto=data.telefono_contacto;
-                                 this.contacto=data.contacto;
+                                 this.usuario=data.usuario;
+                                 this.password=data.password;
+                                 this.idrol=data.idrol;
                                  break;      
                             }
 
