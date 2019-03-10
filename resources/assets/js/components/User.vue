@@ -12,6 +12,7 @@
                     <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-secondary">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
+
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
@@ -48,7 +49,19 @@
                             <td>
                                 <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
                                     <i class="icon-pencil"></i>
-                                </button>
+                                </button>&nbsp;
+                                <template v-if="persona.condicion" >
+                                    <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(persona.id)">
+                                        <i class="icon-trash"></i>
+                                    </button>
+
+                                </template>
+                                <template v-else>
+                                    <button type="button" class="btn btn-success btn-sm" @click="activarUsuario(persona.id)">
+                                        <i class="icon-trash"></i>
+                                    </button>
+                                    <i class="icon-check"></i>
+                                </template>
                                 
                             </td>
                             <td v-text="persona.nombre"></td>
@@ -165,7 +178,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Password(*)</label>
                                 <div class="col-md-9">
-                                    <input type="password" v-model="password" class="form-control" placeholder="Password">
+                                    <input type="text" v-model="password" class="form-control" placeholder="Password">
 
                                 </div>
                             </div>
@@ -472,6 +485,109 @@
                         }
                     }
                 }
+
+            },
+            desactivarUsuario(id){
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Estas seguro de desactivar este usuario?',
+
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        let me=this;
+                        //usamos el verbo post en vez de get
+                        //primer parametro la ruta del controlador que registra
+                        //segundo parametro enviaremos los valores q recibira el controlador
+                        axios.put('/user/desactivar',
+                            {'id':id
+                            }).then(function(){
+
+                            me.listarPersona(1,'','nombre');
+                            swalWithBootstrapButtons.fire(
+                                'Desactivado!',
+                                'El registro ha sido desactivado.',
+                                'success'
+                            )
+
+
+                        }).catch(function(error){
+                            console.log(error);
+                        })
+
+
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                        )
+                    }
+                })
+            },
+            activarUsuario(id){
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Estas seguro de activar este usuario?',
+
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        let me=this;
+                        //usamos el verbo post en vez de get
+                        //primer parametro la ruta del controlador que registra
+                        //segundo parametro enviaremos los valores q recibira el controlador
+                        axios.put('/user/activar',
+                            {'id':id
+                            }).then(function(){
+
+                            me.listarPersona(1,'','nombre');
+                            swalWithBootstrapButtons.fire(
+                                'Activado!',
+                                'El registro ha sido activado.',
+                                'success'
+                            )
+
+
+                        }).catch(function(error){
+                            console.log(error);
+                        })
+
+
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                        )
+                    }
+                })
 
             },
 
