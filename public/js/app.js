@@ -3908,15 +3908,16 @@ __webpack_require__.r(__webpack_exports__);
       //primer parametro la ruta del controlador que registra
       //segundo parametro enviaremos los valores q recibira el controlador
 
-      axios.post('/proveedor/registrar', {
+      axios.post('/user/registrar', {
         'nombre': this.nombre,
         'tipo_doc': this.tipo_documento,
         'num_documento': this.numero_documento,
         'direccion': this.direccion,
         'telefono': this.telefono,
         'email': this.email,
-        'contacto': this.contacto,
-        'telefono_contacto': this.telefono_contacto
+        'usuario': this.usuario,
+        'password': this.password,
+        'idrol': this.idrol
       }).then(function () {
         me.cerrarModal();
         me.listarPersona(1, '', 'nombre');
@@ -3934,16 +3935,16 @@ __webpack_require__.r(__webpack_exports__);
       //primer parametro la ruta del controlador que registra
       //segundo parametro enviaremos los valores q recibira el controlador
 
-      axios.put('/proveedor/actualizar', {
+      axios.put('/user/actualizar', {
         'nombre': this.nombre,
         'tipo_doc': this.tipo_documento,
         'num_documento': this.numero_documento,
         'direccion': this.direccion,
         'telefono': this.telefono,
         'email': this.email,
-        'descripcion': this.descripcion,
-        'contacto': this.contacto,
-        'telefono_contacto': this.telefono_contacto,
+        'usuario': this.usuario,
+        'password': this.password,
+        'idrol': this.idrol,
         'id': this.persona_id
       }).then(function () {
         me.cerrarModal();
@@ -3958,6 +3959,18 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.nombre == '') {
         this.errorMostrarPersona.push("el nombre  no puede estar vacio");
+      }
+
+      if (this.usuario == '') {
+        this.errorMostrarPersona.push("el nombre de usuario  no puede estar vacio");
+      }
+
+      if (this.password == '') {
+        this.errorMostrarPersona.push("el password  no puede estar vacio");
+      }
+
+      if (this.idrol == 0) {
+        this.errorMostrarPersona.push("debes seleccionar un rol para el usuario");
       }
 
       if (this.errorMostrarPersona.length) {
