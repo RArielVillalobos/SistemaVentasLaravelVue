@@ -16,5 +16,5 @@ class DetalleIngreso extends Model
         'precio'
     ];
     public $timestamps=false;
-    
+
 }
