@@ -3485,14 +3485,43 @@ __webpack_require__.r(__webpack_exports__);
 
       me.listarIngreso(page, buscar, criterio);
     },
+    encuentra: function encuentra(idarticulo) {
+      var encontrado = false;
+
+      for (var i = 0; i < this.arrayDetalle.length; i++) {
+        if (this.arrayDetalle[i].idarticulo == idarticulo) {
+          encontrado = true;
+        }
+      }
+
+      return encontrado;
+    },
     agregarDetalle: function agregarDetalle() {
       var me = this;
-      me.arrayDetalle.push({
-        idarticulo: me.articulo,
-        articulo: me.articulo,
-        cantidad: me.cantidad,
-        precio: me.precio
-      });
+
+      if (me.idarticulo == 0 | me.cantidad == 0 | me.precio == 0) {
+        return false;
+      } else {
+        if (me.encuentra(me.idarticulo)) {
+          swal({
+            type: 'error',
+            title: 'Error',
+            text: 'Este articulo ya se encuentra agregado'
+          });
+        } else {
+          me.arrayDetalle.push({
+            idarticulo: me.idarticulo,
+            articulo: me.articulo,
+            cantidad: me.cantidad,
+            precio: me.precio
+          });
+          me.codigo = '';
+          me.idarticulo = 0;
+          me.articulo = '';
+          me.cantidad = 0;
+          me.precio = 0;
+        }
+      }
     },
     registrarPersona: function registrarPersona() {
       //si la validacion devuelve true o 1 , significa que hubo error    
@@ -47273,7 +47302,24 @@ var render = function() {
                   _c("div", { staticClass: "form-group row border" }, [
                     _c("div", { staticClass: "col-md-6" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Articulo")]),
+                        _c("label", [
+                          _vm._v("Articulo "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.idarticulo == 0,
+                                  expression: "idarticulo==0"
+                                }
+                              ],
+                              staticStyle: { color: "red" }
+                            },
+                            [_vm._v("(*Seleccione)")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-inline" }, [
                           _c("input", {
@@ -47349,7 +47395,24 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Precio")]),
+                        _c("label", [
+                          _vm._v("Precio "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.idarticulo == 0,
+                                  expression: "idarticulo==0"
+                                }
+                              ],
+                              staticStyle: { color: "red" }
+                            },
+                            [_vm._v("(*Seleccione)")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -47377,7 +47440,24 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Cantidad")]),
+                        _c("label", [
+                          _vm._v("Cantidad "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.idarticulo == 0,
+                                  expression: "idarticulo==0"
+                                }
+                              ],
+                              staticStyle: { color: "red" }
+                            },
+                            [_vm._v("(*Seleccione)")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
