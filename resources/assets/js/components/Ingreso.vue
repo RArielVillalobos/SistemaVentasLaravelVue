@@ -105,9 +105,9 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="">Proveedor(*)</label>
-                                    <select class="form-control">
+                                    <v-select :on-search="selectProveedor" label="nombre" :options="arrayProveedor" placeholder="Buscando Proveedor" :onChange="getDatosProveedor">
 
-                                    </select>
+                                    </v-select>    
 
                                 </div>
 
@@ -153,8 +153,9 @@
                                 <div class="form-group">
                                     <label>Articulo</label>
                                     <div class="form-inline">
-                                        <input type="text" class="form-control" v-model="idarticulo" placeholder="Ingrese Articulo">
+                                        <input type="text" class="form-control" v-model="codigo" @keyup.enter="buscarArticulo()" placeholder="Ingrese Articulo">
                                         <button class="btn btn-primary btn-sm">...</button>
+                                        <input type="text" readonly class="form-control" v-model="articulo">
 
                                     </div>
 
@@ -309,6 +310,8 @@
     </main>
 </template>
 <script>
+    import vSelect from 'vue-select';
+    
     export default {
         data() {
             return {
@@ -322,6 +325,7 @@
                 total:0.0,
                 arrayIngreso:[],
                 arrayDetalle:[],
+                arrayProveedor:[],
                 listado:1,
                 modal: 0,
                 tituloModal: '',
@@ -339,8 +343,18 @@
                 },
                 offset:3,
                 criterio:'num_comprobante',
-                buscar:''
+                buscar:'',
+                arrayArticulo:[],
+                idarticulo:0,
+                codigo:'',
+                articulo:'',
+                precio:0,
+                cantidad:0,
+
             }
+        },
+        components:{
+            vSelect
         },
         //propiedad computada
         computed:{
@@ -412,6 +426,61 @@
                     });
 
             },
+
+            selectProveedor(search,loading){
+                let me=this;
+                loading(true)
+                var url='/proveedor/selectProveedor?filtro='+search;
+                axios.get(url).then(function(response){
+                    let respuesta=response.data;
+                    q:search
+                     me.arrayProveedor=respuesta.proveedores;
+                     loading(false)
+
+
+
+                }).catch(function(error){
+                    console.log(error)
+
+                });
+            },
+            getDatosProveedor(vall){
+                let me=this;
+                me.loading=true;
+                me.idproveedor=vall.id;
+
+            },
+
+            buscarArticulo(){
+                let me=this;
+                var url='/articulo/buscarArticulo?filtro='+me.codigo;
+
+                axios.get(url).then(function(response){
+                    var respuesta=response.data;
+                    me.arrayArticulo=respuesta.articulos;
+                    //si hemos encontrado un articulo
+                    if(me.arrayArticulo.length>0){
+                        me.articulo=me.arrayArticulo[0]['nombre'];
+                        me.idarticulo=me.arrayArticulo[0]['id'];
+
+
+
+                    }else{
+                        me.articulo='No existe articulo';
+                        me.idarticulo=0;
+
+
+                    }
+
+
+
+                }).catch(function(error){
+                    console.log(error);
+
+                });
+
+            },
+
             //el page recibe el numero de pagina que queremos mostrar
             cambiarPagina(page,buscar,criterio){
                 let me=this;

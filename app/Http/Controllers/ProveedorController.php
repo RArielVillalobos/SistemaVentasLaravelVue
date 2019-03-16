@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use illuminate\Support\Facades\DB;
 use App\Proveedor;
 use App\Persona;
-use Illuminate\Support\Facades\DB;
 
 class ProveedorController extends Controller
 {
@@ -49,6 +48,21 @@ class ProveedorController extends Controller
           'proveedores'=>$proveedores];
         
     }
+     public function selectProveedor(Request $request){
+        /* if(!$request->ajax()){
+             return redirect('/');
+         }*/
+
+         $filtro=$request->filtro;
+         $proveedores=Proveedor::join('personas','proveedores.id','=','personas.id')
+         ->where('personas.nombre','like','%'.$filtro.'%')->
+         orWhere('personas.num_documento','like','%'.$filtro.'%')
+         ->select('personas.id','personas.nombre','personas.num_documento')
+         ->orderBy('personas.nombre','asc')->get();
+
+         return ['proveedores'=>$proveedores];
+         
+     }
 
     public function store(Request $request)
     {
@@ -76,9 +90,9 @@ class ProveedorController extends Controller
             $proveedor->save();
             DB::commit();
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
-        
+            
             
         }
         

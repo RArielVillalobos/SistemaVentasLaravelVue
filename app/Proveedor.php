@@ -13,5 +13,6 @@ class Proveedor extends Model
 
     public function persona(){
         return $this->belongTo('App\Persona');
+        
     }
 }
