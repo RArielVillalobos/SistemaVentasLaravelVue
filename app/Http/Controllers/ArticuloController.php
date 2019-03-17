@@ -25,14 +25,14 @@ class ArticuloController extends Controller
                 //si el usuario no esta buscando nada
                 $articulos= Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
                 ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
-                ->orderBy('id','desc')->paginate(3);
+                ->orderBy('articulos.id','desc')->paginate(3);
                
             }else{
                 //si se llega a efectuar una busqueda
                 $articulos= Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
                 ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
                 ->where('articulos.'.$criterio,'like','%'.$buscar.'%')
-                ->orderBy('id','desc')->paginate(3);
+                ->orderBy('articulos.id','desc')->paginate(3);
                 
             }
             
@@ -46,6 +46,37 @@ class ArticuloController extends Controller
               'to'=>$articulos->lastItem(),
           ],
           'articulos'=>$articulos];
+        
+    }
+    public function listarArticuloModal(Request $request)
+    {
+       /* if(!$request->ajax()){
+            return redirect('/');
+          
+        }*/
+           // $categorias=Categoria::all();
+            
+            //lo obtenido a traves de AJAX
+            $buscar=$request->buscar;
+            $criterio=$request->criterio;
+            
+            if($buscar==''){
+                //si el usuario no esta buscando nada
+                $articulos= Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
+                ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
+                ->orderBy('articulos.id','desc')->paginate(10);
+               
+            }else{
+                //si se llega a efectuar una busqueda
+                $articulos= Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
+                ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
+                ->where('articulos.'.$criterio,'like','%'.$buscar.'%')
+                ->orderBy('articulos.id','desc')->paginate(10);
+                
+            }
+            
+
+          return ['articulosModal'=>$articulos];
         
     }
     public function buscarArticulo(Request $request){
