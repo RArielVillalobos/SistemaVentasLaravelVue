@@ -70,12 +70,14 @@ class IngresoController extends Controller
             $ingreso->serie_comprobante=$request->serie_comprobante;
             $ingreso->num_comprobante=$request->num_comprobante;
             $ingreso->fecha_hora=$myTime->toDateString();
+            $ingreso->impuesto=$request->impuesto;
             $ingreso->total=$request->total;
             $ingreso->estado='Registrado';
             $ingreso->save();
 
             //array de detalles
             $detalles=$request->data;
+            
 
             foreach($detalles as $ep=>$det){
                 $detalle=new DetalleIngreso();

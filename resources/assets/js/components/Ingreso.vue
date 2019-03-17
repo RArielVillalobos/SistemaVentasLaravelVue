@@ -145,6 +145,16 @@
                                 </div>
 
                             </div>
+                            <div class="col-md-12">
+                                <div v-show="errorIngreso==1" class="form-group row div-error">
+                                <div class="text-center text-error">
+                                    <div v-for="error in errorMostrarIngreso" :key="error" v-text="error">
+
+
+                                    </div>
+                                </div>    
+                            </div>
+                            </div>    
 
 
                         </div>
@@ -648,30 +658,42 @@
                 //eliminar el elemento del array que coincida con el indice, el 1 es cuantos elementos eliminara
                 me.arrayDetalle.splice(index,1);
             },
-            registrarPersona() {
+            registrarIngreso() {
 
                 //si la validacion devuelve true o 1 , significa que hubo error    
-                if(this.validarPersona()){
+                if(this.validarIngreso()){
                     return false
                 }
                 let me=this;
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
                 //segundo parametro enviaremos los valores q recibira el controlador
-                axios.post('/user/registrar',
-                {'nombre':this.nombre,
-                 'tipo_doc':this.tipo_documento,
-                 'num_documento':this.numero_documento,
-                'direccion':this.direccion,
-                'telefono':this.telefono,
-                'email':this.email,
-                'usuario':this.usuario,
-                'password':this.password,
-                'idrol':this.idrol
-
+                axios.post('/ingreso/registrar',
+                {'idproveedor':this.idproveedor,
+                 'tipo_comprobante':this.tipo_comprobante,
+                 'serie_comprobante':this.serie_comprobante,
+                 'num_comprobante':this.num_comprobante,
+                 'impuesto':this.impuesto,
+                 'total':this.total,
+                 'data':this.arrayDetalle,
+                
                 }).then(function(){
-                    me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
+                    //que muestre el listado
+                    me.listado=1;
+                    
+                    me.listarIngreso(1,'','num_comprobante');
+                    me.idproveedor=0;
+                    me.tipo_comprobante='BOLETA';
+                    me.serie_comprobante='';
+                    me.num_comprobante='';
+                    me.impuesto=0.18;
+                    me.total=0;
+                    me.idarticulo=0;
+                    me.articulo='';
+                    me.cantidad=0;
+                    me.precio=0;
+                    me.arrayDetalle=[];
+
         
 
                 }).catch(function(error){
@@ -713,35 +735,50 @@
             },
 
             
-            validarPersona(){
-                this.errorPersona=0;
-                this.errorMostrarPersona=[];
+            validarIngreso(){
+                this.errorIngreso=0;
+                this.errorMostrarIngreso=[];
                 //si el nombre esta vacio, agrega el msj de error
-                if(this.nombre==''){
-                    this.errorMostrarPersona.push("el nombre  no puede estar vacio");
+                if(this.idproveedor==0){
+                    this.errorMostrarIngreso.push("Seleccione Proveedor");
 
                 }
-                if(this.usuario==''){
-                    this.errorMostrarPersona.push("el nombre de usuario  no puede estar vacio");
+                if(this.tipo_comprobante==0){
+                    this.errorMostrarIngreso.push("Seleccione el comprobante");
 
                 }
-                if(this.password==''){
-                    this.errorMostrarPersona.push("el password  no puede estar vacio");
+                if(this.num_comprobante==''){
+                    this.errorMostrarIngreso.push("ingrese numero de comprobante");
 
                 }
-                if(this.idrol==0){
-                    this.errorMostrarPersona.push("debes seleccionar un rol para el usuario");
+                if(this.impuesto==0){
+                    this.errorMostrarIngreso.push("ingrese el impuesto de compra");
 
+                }
+                if(this.arrayDetalle.length<=0){
+                    this.errorMostrarIngreso.push("Agrege articulos a la compra")
                 }
                 
-                if(this.errorMostrarPersona.length){
-                    this.errorPersona=1;
-                }
-                return this.errorPersona;     
+                if(this.errorMostrarIngreso.length){
+                    this.errorIngreso=1;
+                } 
+                return this.errorIngreso;     
             },
 
             mostrarDetalle(){
-                this.listado=0;
+                let me=this;
+                me.listado=0;
+                me.idproveedor=0;
+                me.tipo_comprobante='BOLETA';
+                me.serie_comprobante='';
+                me.num_comprobante='';
+                me.impuesto=0.18;
+                me.total=0;
+                me.idarticulo=0;
+                me.articulo='';
+                me.cantidad=0;
+                me.precio=0;
+                me.arrayDetalle=[];
 
             },
             ocultarDetalle(){

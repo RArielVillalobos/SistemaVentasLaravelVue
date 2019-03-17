@@ -90,7 +90,7 @@ Route::group(['middleware'=>['auth']],function (){
 
         Route::get('/ingreso','IngresoController@index');
         Route::get('/ingreso','IngresoController@index');
-        Route::post('ingreso/ingreso','IngresoController@store');
+        Route::post('ingreso/registrar','IngresoController@store');
         Route::put('ingreso/desactivar','IngresoController@desactivar');
 
         
