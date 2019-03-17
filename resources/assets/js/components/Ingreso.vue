@@ -200,9 +200,9 @@
 
                                     </thead>
                                     <tbody v-if="arrayDetalle.length>=1">
-                                        <tr v-for="detalle in arrayDetalle" :key="detalle.id"> 
+                                        <tr v-for="(detalle,index) in arrayDetalle" :key="detalle.id"> 
                                             <td>
-                                                <button type="button" class="btn btn-danger btn-sm" >
+                                                <button @click="eliminarDetalle(index)" type="button" class="btn btn-danger btn-sm" >
                                                     <i class="icon-close"></i>
                                                 </button>
                                             </td>
@@ -531,6 +531,12 @@
                 
                 
 
+            },
+
+            eliminarDetalle(index){
+                let me=this;
+                //eliminar el elemento del array que coincida con el indice, el 1 es cuantos elementos eliminara
+                me.arrayDetalle.splice(index,1);
             },
             registrarPersona() {
 
