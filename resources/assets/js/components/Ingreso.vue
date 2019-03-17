@@ -601,9 +601,29 @@
 
             },
             agregarDetalleModal(data=[]){
+                let me=this;
+                 if(me.encuentra(data['id'])){
+                        swal({
+                            type:'error',
+                            title:'Error',
+                            text:'Este articulo ya se encuentra agregado'
+
+                        })
+
+                    }else{
+                        me.arrayDetalle.push({
+                            idarticulo:data['id'],
+                            articulo:data['nombre'],
+                            cantidad:1,
+                            precio:1
+
+                    });
+                    
 
 
 
+
+                }
             },
             listarArticuloModal(buscar,criterio) {
                 let me = this;
@@ -736,7 +756,8 @@
                 
 
             },
-            abrirModal() { 
+            abrirModal() {
+                this.arrayArticulo=[]; 
                 this.modal=1;
                 this.tituloModal='Seleccione uno o varios articulos';
                                 
@@ -857,7 +878,7 @@
     }
             
         
-
+    
 </script>
 <style>
     .modal-content{
