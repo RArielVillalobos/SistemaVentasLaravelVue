@@ -3761,7 +3761,7 @@ __webpack_require__.r(__webpack_exports__);
       this.modal = 1;
       this.tituloModal = 'Seleccione uno o varios articulos';
     },
-    desactivarUsuario: function desactivarUsuario(id) {
+    desactivarIngreso: function desactivarIngreso(id) {
       var _this = this;
 
       var swalWithBootstrapButtons = Swal.mixin({
@@ -3770,7 +3770,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsStyling: false
       });
       swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de desactivar este usuario?',
+        title: 'Esta Seguro de anular el ingreso?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -3782,46 +3782,11 @@ __webpack_require__.r(__webpack_exports__);
           //primer parametro la ruta del controlador que registra
           //segundo parametro enviaremos los valores q recibira el controlador
 
-          axios.put('/user/desactivar', {
+          axios.put('/ingreso/desactivar', {
             'id': id
           }).then(function () {
-            me.listarPersona(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Desactivado!', 'El registro ha sido desactivado.', 'success');
-          }).catch(function (error) {
-            console.log(error);
-          });
-        } else if ( // Read more about handling dismissals
-        result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
-        }
-      });
-    },
-    activarUsuario: function activarUsuario(id) {
-      var _this2 = this;
-
-      var swalWithBootstrapButtons = Swal.mixin({
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de activar este usuario?',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.value) {
-          var me = _this2; //usamos el verbo post en vez de get
-          //primer parametro la ruta del controlador que registra
-          //segundo parametro enviaremos los valores q recibira el controlador
-
-          axios.put('/user/activar', {
-            'id': id
-          }).then(function () {
-            me.listarPersona(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Activado!', 'El registro ha sido activado.', 'success');
+            me.listarIngreso(1, '', 'num_comprobante');
+            swalWithBootstrapButtons.fire('Anulado!', 'El registro ha sido anulado con exito.', 'success');
           }).catch(function (error) {
             console.log(error);
           });
@@ -47052,7 +47017,7 @@ var render = function() {
                                   _vm._v(
                                     " \n                                    "
                                   ),
-                                  ingreso.estado == "registrado"
+                                  ingreso.estado == "Registrado"
                                     ? [
                                         _c(
                                           "button",

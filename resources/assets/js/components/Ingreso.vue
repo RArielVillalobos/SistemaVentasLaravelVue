@@ -54,7 +54,7 @@
                                         <button type="button" @click="abrirModal('ingreso','actualizar',ingreso)" class="btn btn-success btn-sm">
                                             <i class="icon-eye"></i>
                                         </button>&nbsp;
-                                        <template v-if="ingreso.estado=='registrado'" >
+                                        <template v-if="ingreso.estado=='Registrado'" >
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarIngreso(ingreso.id)">
                                                 <i class="icon-trash"></i>
                                             </button>
@@ -800,7 +800,7 @@
                                 
 
             },
-            desactivarUsuario(id){
+            desactivarIngreso(id){
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
@@ -808,7 +808,7 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                    title: 'Estas seguro de desactivar este usuario?',
+                    title: 'Esta Seguro de anular el ingreso?',
 
                     type: 'warning',
                     showCancelButton: true,
@@ -821,14 +821,14 @@
                         //usamos el verbo post en vez de get
                         //primer parametro la ruta del controlador que registra
                         //segundo parametro enviaremos los valores q recibira el controlador
-                        axios.put('/user/desactivar',
+                        axios.put('/ingreso/desactivar',
                             {'id':id
                             }).then(function(){
 
-                            me.listarPersona(1,'','nombre');
+                            me.listarIngreso(1,'','num_comprobante');
                             swalWithBootstrapButtons.fire(
-                                'Desactivado!',
-                                'El registro ha sido desactivado.',
+                                'Anulado!',
+                                'El registro ha sido anulado con exito.',
                                 'success'
                             )
 
@@ -851,58 +851,7 @@
                     }
                 })
             },
-            activarUsuario(id){
-                const swalWithBootstrapButtons = Swal.mixin({
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    buttonsStyling: false,
-                })
-
-                swalWithBootstrapButtons.fire({
-                    title: 'Estas seguro de activar este usuario?',
-
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Aceptar',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        let me=this;
-                        //usamos el verbo post en vez de get
-                        //primer parametro la ruta del controlador que registra
-                        //segundo parametro enviaremos los valores q recibira el controlador
-                        axios.put('/user/activar',
-                            {'id':id
-                            }).then(function(){
-
-                            me.listarPersona(1,'','nombre');
-                            swalWithBootstrapButtons.fire(
-                                'Activado!',
-                                'El registro ha sido activado.',
-                                'success'
-                            )
-
-
-                        }).catch(function(error){
-                            console.log(error);
-                        })
-
-
-                    } else if (
-                        // Read more about handling dismissals
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-
-                        swalWithBootstrapButtons.fire(
-                            'Cancelled',
-                            'Your imaginary file is safe :)',
-                            'error'
-                        )
-                    }
-                })
-
-            },
+            
 
             
 
