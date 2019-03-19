@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreatePersonasTable extends Migration
 {
@@ -25,6 +26,18 @@ class CreatePersonasTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::table('personas')->insert([
+            'id'=>1,
+            'nombre'=>'ariel villalobos',
+            'tipo_documento'=>'DNI',
+            'num_documento'=>'39523328',
+            'direccion'=>'remigio bosch 380',
+            'telefono'=>'2994567225',
+            'email'=>'ariel@gmail.com'
+
+
+        ]);
     }
 
     /**
