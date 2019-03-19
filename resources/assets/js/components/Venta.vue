@@ -104,8 +104,8 @@
                         <div class="form-group row border">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label for="">Proveedor(*)</label>
-                                    <v-select :on-search="selectProveedor" label="nombre" :options="arrayProveedor" placeholder="Buscando Proveedor" :onChange="getDatosProveedor">
+                                    <label for="">Clienter</label>
+                                    <v-select :on-search="selectCliente" label="nombre" :options="arrayCliente" placeholder="Buscando Cliente" :onChange="getDatosCliente">
 
                                     </v-select>    
 
@@ -146,9 +146,9 @@
 
                             </div>
                             <div class="col-md-12">
-                                <div v-show="errorIngreso==1" class="form-group row div-error">
+                                <div v-show="errorVenta==1" class="form-group row div-error">
                                 <div class="text-center text-error">
-                                    <div v-for="error in errorMostrarIngreso" :key="error" v-text="error">
+                                    <div v-for="error in errorMostrarVenta" :key="error" v-text="error">
 
 
                                     </div>
@@ -159,7 +159,7 @@
 
                         </div>
                         <div class="form-group row border">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Articulo <span style="color:red" v-show="idarticulo==0">(*Seleccione)</span></label>
                                     <div class="form-inline">
@@ -190,6 +190,14 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
+                                    <label>Descuento</label>
+                                    <input type="number" value="0"  class="form-control" v-model="descuento">
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
                                     <button class="btn btn-success form-control btnagregar" @click="agregarDetalle()">
                                         <i class="icon-plus"></i>
                                     </button>
@@ -206,6 +214,7 @@
                                         <th>Articulo</th>
                                         <th>Precio</th>
                                         <th>Cantidad</th>
+                                        <th>Descuento</th>
                                         <th>Subtotal</th>
 
                                     </thead>
@@ -220,10 +229,14 @@
                                                 
                                             </td>
                                             <td>
-                                                <input type="number" v-model="detalle.precio" value="3" class="form-control">
+                                                <input type="number" v-model="detalle.precio"  class="form-control">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.cantidad" type="number" value="2" class="form-control">
+                                                <input v-model="detalle.cantidad" type="number"  class="form-control">
+
+                                            </td>
+                                            <td>
+                                                <input v-model="detalle.descuento" type="number"  class="form-control">
 
                                             </td>
                                             <td>
@@ -233,19 +246,19 @@
                                         </tr>
                                        
                                         <tr style="background-color:#CEECF5;">
-                                            <td colspan="4" align="right"><strong>Total Parcial:</strong></td>
+                                            <td colspan="5" align="right"><strong>Total Parcial:</strong></td>
                                             <td>$ {{totalParcial=(total-totalImpuesto).toFixed(2)}}</td>
 
 
                                         </tr>
                                         <tr style="background-color:#CEECF5;">
-                                            <td colspan="4" align="right"><strong>Total Impuesto:</strong></td>
+                                            <td colspan="5" align="right"><strong>Total Impuesto:</strong></td>
                                             <td>$ {{totalImpuesto=((total*impuesto)/(1+impuesto)).toFixed(2)}}</td>
 
 
                                         </tr>
                                         <tr style="background-color:#CEECF5;">
-                                            <td colspan="4" align="right"><strong>Total Neto:</strong></td>
+                                            <td colspan="5" align="right"><strong>Total Neto:</strong></td>
                                             <td>$ {{total=calcularTotal}}</td>
 
 
@@ -254,7 +267,7 @@
                                     </tbody>
                                     <tbody v-else>
                                         <tr >
-                                            <td colspan="5">
+                                            <td colspan="6">
                                                  No hay Articulos Agregados
                                             </td>    
 
@@ -271,7 +284,7 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <button type="button" @click="ocultarDetalle" class="btn btn-secondary">Cerrar</button>
-                                <button type="button" class="btn btn-primary" @click="registrarIngreso()">Registrar Compra</button>
+                                <button type="button" class="btn btn-primary" @click="registrarVenta()">Registrar Venta</button>
                             </div>
 
                         </div>
@@ -534,6 +547,7 @@
                 articulo:'',
                 precio:0,
                 cantidad:0,
+                descuento:0,
 
             }
         },

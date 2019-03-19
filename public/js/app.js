@@ -5562,6 +5562,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5603,7 +5616,8 @@ __webpack_require__.r(__webpack_exports__);
       codigo: '',
       articulo: '',
       precio: 0,
-      cantidad: 0
+      cantidad: 0,
+      descuento: 0
     };
   },
   components: {
@@ -51873,16 +51887,16 @@ var render = function() {
                         { staticClass: "form-group" },
                         [
                           _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Proveedor(*)")
+                            _vm._v("Clienter")
                           ]),
                           _vm._v(" "),
                           _c("v-select", {
                             attrs: {
-                              "on-search": _vm.selectProveedor,
+                              "on-search": _vm.selectCliente,
                               label: "nombre",
-                              options: _vm.arrayProveedor,
-                              placeholder: "Buscando Proveedor",
-                              onChange: _vm.getDatosProveedor
+                              options: _vm.arrayCliente,
+                              placeholder: "Buscando Cliente",
+                              onChange: _vm.getDatosCliente
                             }
                           })
                         ],
@@ -52039,8 +52053,8 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.errorIngreso == 1,
-                              expression: "errorIngreso==1"
+                              value: _vm.errorVenta == 1,
+                              expression: "errorVenta==1"
                             }
                           ],
                           staticClass: "form-group row div-error"
@@ -52049,7 +52063,7 @@ var render = function() {
                           _c(
                             "div",
                             { staticClass: "text-center text-error" },
-                            _vm._l(_vm.errorMostrarIngreso, function(error) {
+                            _vm._l(_vm.errorMostrarVenta, function(error) {
                               return _c("div", {
                                 key: error,
                                 domProps: { textContent: _vm._s(error) }
@@ -52063,7 +52077,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row border" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [
                           _vm._v("Articulo "),
@@ -52255,6 +52269,34 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Descuento")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.descuento,
+                              expression: "descuento"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number", value: "0" },
+                          domProps: { value: _vm.descuento },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.descuento = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "form-group" }, [
                         _c(
                           "button",
                           {
@@ -52332,7 +52374,7 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "3" },
+                                          attrs: { type: "number" },
                                           domProps: { value: detalle.precio },
                                           on: {
                                             input: function($event) {
@@ -52360,7 +52402,7 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "number", value: "2" },
+                                          attrs: { type: "number" },
                                           domProps: { value: detalle.cantidad },
                                           on: {
                                             input: function($event) {
@@ -52370,6 +52412,36 @@ var render = function() {
                                               _vm.$set(
                                                 detalle,
                                                 "cantidad",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: detalle.descuento,
+                                              expression: "detalle.descuento"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { type: "number" },
+                                          domProps: {
+                                            value: detalle.descuento
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                detalle,
+                                                "descuento",
                                                 $event.target.value
                                               )
                                             }
@@ -52484,11 +52556,11 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.registrarIngreso()
+                              return _vm.registrarVenta()
                             }
                           }
                         },
-                        [_vm._v("Registrar Compra")]
+                        [_vm._v("Registrar Venta")]
                       )
                     ])
                   ])
@@ -53033,6 +53105,8 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Cantidad")]),
       _vm._v(" "),
+      _c("th", [_vm._v("Descuento")]),
+      _vm._v(" "),
       _c("th", [_vm._v("Subtotal")])
     ])
   },
@@ -53040,7 +53114,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
       _c("strong", [_vm._v("Total Parcial:")])
     ])
   },
@@ -53048,7 +53122,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
       _c("strong", [_vm._v("Total Impuesto:")])
     ])
   },
@@ -53056,7 +53130,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
       _c("strong", [_vm._v("Total Neto:")])
     ])
   },
@@ -53065,7 +53139,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", { attrs: { colspan: "5" } }, [
+      _c("td", { attrs: { colspan: "6" } }, [
         _vm._v(
           "\n                                             No hay Articulos Agregados\n                                        "
         )
