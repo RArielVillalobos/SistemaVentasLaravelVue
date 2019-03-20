@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -129,7 +129,7 @@ class VentaController extends Controller
 
             foreach($detalles as $ep=>$det){
                 $detalle=new DetalleVenta();
-                $detalle->idventa=$iventa->id;
+                $detalle->idventa=$venta->id;
                 $detalle->idarticulo=$det['idarticulo'];
                 $detalle->cantidad=$det['cantidad'];
                 $detalle->precio=$det['precio'];

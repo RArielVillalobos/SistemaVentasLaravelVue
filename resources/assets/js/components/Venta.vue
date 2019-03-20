@@ -802,18 +802,18 @@
                 //eliminar el elemento del array que coincida con el indice, el 1 es cuantos elementos eliminara
                 me.arrayDetalle.splice(index,1);
             },
-            registrarIngreso() {
+            registrarVenta() {
 
                 //si la validacion devuelve true o 1 , significa que hubo error    
-                if(this.validarIngreso()){
+                if(this.validarVenta()){
                     return false
                 }
                 let me=this;
                 //usamos el verbo post en vez de get
                 //primer parametro la ruta del controlador que registra
                 //segundo parametro enviaremos los valores q recibira el controlador
-                axios.post('/ingreso/registrar',
-                {'idproveedor':this.idproveedor,
+                axios.post('/venta/registrar',
+                {'idcliente':this.idcliente,
                  'tipo_comprobante':this.tipo_comprobante,
                  'serie_comprobante':this.serie_comprobante,
                  'num_comprobante':this.num_comprobante,
@@ -825,7 +825,7 @@
                     //que muestre el listado
                     me.listado=1;
                     
-                    me.listarIngreso(1,'','num_comprobante');
+                    me.listarVenta(1,'','num_comprobante');
                     me.idproveedor=0;
                     me.tipo_comprobante='BOLETA';
                     me.serie_comprobante='';
@@ -836,6 +836,9 @@
                     me.articulo='';
                     me.cantidad=0;
                     me.precio=0;
+                    me.stock=0;
+                    me.codig='';
+                    me.descuento=0;
                     me.arrayDetalle=[];
 
         
@@ -879,34 +882,46 @@
             },
 
             
-            validarIngreso(){
-                this.errorIngreso=0;
-                this.errorMostrarIngreso=[];
+            validarVenta(){
+                let me=this;
+                me.errorVenta=0;
+                me.errorMostrarVenta=[];
+                var art;
+                //recorro los valores con la funcion map, cada valor es la variable x
+                me.arrayDetalle.map(function(x){
+                    console.log(x);
+                    if(x.cantidad>x.stock){
+                        art=x.articulo + ' con stock insuficiente';
+                        me.errorMostrarVenta.push(art);
+
+                    }
+
+                });
                 //si el nombre esta vacio, agrega el msj de error
-                if(this.idproveedor==0){
-                    this.errorMostrarIngreso.push("Seleccione Proveedor");
+                if(me.idcliente==0){
+                    me.errorMostrarVenta.push("Seleccione un Cliente");
 
                 }
-                if(this.tipo_comprobante==0){
-                    this.errorMostrarIngreso.push("Seleccione el comprobante");
+                if(me.tipo_comprobante==0){
+                    me.errorMostrarVenta.push("Seleccione el comprobante");
 
                 }
-                if(this.num_comprobante==''){
-                    this.errorMostrarIngreso.push("ingrese numero de comprobante");
+                if(me.num_comprobante==''){
+                    me.errorMostrarVenta.push("ingrese numero de comprobante");
 
                 }
-                if(this.impuesto==0){
-                    this.errorMostrarIngreso.push("ingrese el impuesto de compra");
+                if(me.impuesto==0){
+                    me.errorMostrarVenta.push("ingrese el impuesto de compra");
 
                 }
-                if(this.arrayDetalle.length<=0){
-                    this.errorMostrarIngreso.push("Agrege articulos a la compra")
+                if(me.arrayDetalle.length<=0){
+                    me.errorMostrarVenta.push("Agrege articulos a la compra")
                 }
                 
-                if(this.errorMostrarIngreso.length){
-                    this.errorIngreso=1;
+                if(me.errorMostrarVenta.length){
+                    me.errorVenta=1;
                 } 
-                return this.errorIngreso;     
+                return me.errorVenta;     
             },
 
             mostrarDetalle(){
