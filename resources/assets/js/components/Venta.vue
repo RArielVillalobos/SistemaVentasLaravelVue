@@ -104,7 +104,7 @@
                         <div class="form-group row border">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label for="">Clienter</label>
+                                    <label for="">Cliente</label>
                                     <v-select :on-search="selectCliente" label="nombre" :options="arrayCliente" placeholder="Buscando Cliente" :onChange="getDatosCliente">
 
                                     </v-select>    
@@ -616,14 +616,14 @@
 
             },
             
-            selectProveedor(search,loading){
+            selectCliente(search,loading){
                 let me=this;
                 loading(true)
-                var url='/proveedor/selectProveedor?filtro='+search;
+                var url='/venta/selectCliente?filtro='+search;
                 axios.get(url).then(function(response){
                     let respuesta=response.data;
                     q:search
-                     me.arrayProveedor=respuesta.proveedores;
+                     me.arrayCliente=respuesta.clientes;
                      loading(false)
 
 
@@ -633,10 +633,10 @@
 
                 });
             },
-            getDatosProveedor(vall){
+            getDatosCliente(vall){
                 let me=this;
                 me.loading=true;
-                me.idproveedor=vall.id;
+                me.idcliente=vall.id;
 
             },
 

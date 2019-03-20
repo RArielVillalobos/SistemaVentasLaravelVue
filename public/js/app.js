@@ -5678,25 +5678,25 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    selectProveedor: function selectProveedor(search, loading) {
+    selectCliente: function selectCliente(search, loading) {
       var me = this;
       loading(true);
-      var url = '/proveedor/selectProveedor?filtro=' + search;
+      var url = '/venta/selectCliente?filtro=' + search;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
 
         q: search;
 
-        me.arrayProveedor = respuesta.proveedores;
+        me.arrayCliente = respuesta.clientes;
         loading(false);
       }).catch(function (error) {
         console.log(error);
       });
     },
-    getDatosProveedor: function getDatosProveedor(vall) {
+    getDatosCliente: function getDatosCliente(vall) {
       var me = this;
       me.loading = true;
-      me.idproveedor = vall.id;
+      me.idcliente = vall.id;
     },
     buscarArticulo: function buscarArticulo() {
       var me = this;
@@ -51887,7 +51887,7 @@ var render = function() {
                         { staticClass: "form-group" },
                         [
                           _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Clienter")
+                            _vm._v("Cliente")
                           ]),
                           _vm._v(" "),
                           _c("v-select", {
