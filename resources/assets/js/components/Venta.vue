@@ -232,15 +232,17 @@
                                                 <input type="number" v-model="detalle.precio"  class="form-control">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.cantidad" type="number"  class="form-control">
+                                                <span style="color:red" v-show="detalle.cantidad>detalle.stock">Stock: {{detalle.stock}}</span>
+                                                <input v-model="detalle.cantidad" type="number"   class="form-control">
 
                                             </td>
                                             <td>
+                                                <span style="color:red" v-show="detalle.descuento>detalle.precio*detalle.cantidad">Descuento Superior</span>
                                                 <input v-model="detalle.descuento" type="number"  class="form-control">
 
                                             </td>
                                             <td>
-                                                {{detalle.precio*detalle.cantidad}}
+                                                {{detalle.precio*detalle.cantidad-detalle.descuento}}
 
                                             </td>
                                         </tr>
@@ -587,7 +589,7 @@
             calcularTotal:function(){
                 var resultado=0;
                 for(var i=0; i<this.arrayDetalle.length; i++){
-                    resultado=resultado+(this.arrayDetalle[i].precio*this.arrayDetalle[i].cantidad);
+                    resultado=resultado+(this.arrayDetalle[i].precio*this.arrayDetalle[i].cantidad-this.arrayDetalle[i].descuento);
                 }
                 return resultado;
             }
@@ -713,18 +715,33 @@
                         })
 
                     }else{
-                        me.arrayDetalle.push({
+                        if(me.cantidad>me.stock){
+                            swal({
+                            type:'error',
+                            title:'Error',
+                            text:'No hay stock disponible'
+
+                        })
+
+                        }else{
+                            me.arrayDetalle.push({
                             idarticulo:me.idarticulo,
                             articulo:me.articulo,
                             cantidad:me.cantidad,
-                            precio:me.precio
+                            precio:me.precio,
+                            descuento:me.descuento,
+                            stock:me.stock
 
-                    });
-                    me.codigo='';
-                    me.idarticulo=0;
-                    me.articulo='';
-                    me.cantidad=0;
-                    me.precio=0;
+                            });
+                            me.codigo='';
+                            me.idarticulo=0;
+                            me.articulo='';
+                            me.cantidad=0;
+                            me.precio=0;
+                            me.descuento='';
+                            me.stock='';
+
+                        }
 
 
                     }
@@ -750,7 +767,9 @@
                             idarticulo:data['id'],
                             articulo:data['nombre'],
                             cantidad:1,
-                            precio:1
+                            precio:data['precio_venta'],
+                            descuento:0,
+                            stock:data['stock']
 
                     });
                     

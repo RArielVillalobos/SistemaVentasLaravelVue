@@ -5575,6 +5575,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5659,7 +5661,7 @@ __webpack_require__.r(__webpack_exports__);
       var resultado = 0;
 
       for (var i = 0; i < this.arrayDetalle.length; i++) {
-        resultado = resultado + this.arrayDetalle[i].precio * this.arrayDetalle[i].cantidad;
+        resultado = resultado + (this.arrayDetalle[i].precio * this.arrayDetalle[i].cantidad - this.arrayDetalle[i].descuento);
       }
 
       return resultado;
@@ -5751,17 +5753,29 @@ __webpack_require__.r(__webpack_exports__);
             text: 'Este articulo ya se encuentra agregado'
           });
         } else {
-          me.arrayDetalle.push({
-            idarticulo: me.idarticulo,
-            articulo: me.articulo,
-            cantidad: me.cantidad,
-            precio: me.precio
-          });
-          me.codigo = '';
-          me.idarticulo = 0;
-          me.articulo = '';
-          me.cantidad = 0;
-          me.precio = 0;
+          if (me.cantidad > me.stock) {
+            swal({
+              type: 'error',
+              title: 'Error',
+              text: 'No hay stock disponible'
+            });
+          } else {
+            me.arrayDetalle.push({
+              idarticulo: me.idarticulo,
+              articulo: me.articulo,
+              cantidad: me.cantidad,
+              precio: me.precio,
+              descuento: me.descuento,
+              stock: me.stock
+            });
+            me.codigo = '';
+            me.idarticulo = 0;
+            me.articulo = '';
+            me.cantidad = 0;
+            me.precio = 0;
+            me.descuento = '';
+            me.stock = '';
+          }
         }
       }
     },
@@ -5780,7 +5794,9 @@ __webpack_require__.r(__webpack_exports__);
           idarticulo: data['id'],
           articulo: data['nombre'],
           cantidad: 1,
-          precio: 1
+          precio: data['precio_venta'],
+          descuento: 0,
+          stock: data['stock']
         });
       }
     },
@@ -52395,6 +52411,29 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  detalle.cantidad >
+                                                  detalle.stock,
+                                                expression:
+                                                  "detalle.cantidad>detalle.stock"
+                                              }
+                                            ],
+                                            staticStyle: { color: "red" }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "Stock: " + _vm._s(detalle.stock)
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
                                         _c("input", {
                                           directives: [
                                             {
@@ -52423,6 +52462,26 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
+                                        _c(
+                                          "span",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  detalle.descuento >
+                                                  detalle.precio *
+                                                    detalle.cantidad,
+                                                expression:
+                                                  "detalle.descuento>detalle.precio*detalle.cantidad"
+                                              }
+                                            ],
+                                            staticStyle: { color: "red" }
+                                          },
+                                          [_vm._v("Descuento Superior")]
+                                        ),
+                                        _vm._v(" "),
                                         _c("input", {
                                           directives: [
                                             {
@@ -52456,7 +52515,9 @@ var render = function() {
                                         _vm._v(
                                           "\n                                            " +
                                             _vm._s(
-                                              detalle.precio * detalle.cantidad
+                                              detalle.precio *
+                                                detalle.cantidad -
+                                                detalle.descuento
                                             ) +
                                             "\n\n                                        "
                                         )
