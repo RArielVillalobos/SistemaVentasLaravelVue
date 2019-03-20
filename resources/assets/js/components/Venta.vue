@@ -548,6 +548,7 @@
                 precio:0,
                 cantidad:0,
                 descuento:0,
+                stock:0,
 
             }
         },
@@ -642,7 +643,7 @@
 
             buscarArticulo(){
                 let me=this;
-                var url='/articulo/buscarArticulo?filtro='+me.codigo;
+                var url='/articulo/buscarArticuloVenta?filtro='+me.codigo;
 
                 axios.get(url).then(function(response){
                     var respuesta=response.data;
@@ -651,6 +652,9 @@
                     if(me.arrayArticulo.length>0){
                         me.articulo=me.arrayArticulo[0]['nombre'];
                         me.idarticulo=me.arrayArticulo[0]['id'];
+                        me.precio=me.arrayArticulo[0]['precio_venta'];
+                        me.stock=me.arrayArticulo[0]['stock'];
+
 
 
 
@@ -758,7 +762,7 @@
             },
             listarArticuloModal(buscar,criterio) {
                 let me = this;
-                var url='/articulo/listarArticuloModal?buscar='+buscar+'&criterio='+criterio;
+                var url='/articulo/listarArticuloModalVenta?buscar='+buscar+'&criterio='+criterio;
                 axios.get(url).then(function (response) {
                     var respuesta=response.data;
 
