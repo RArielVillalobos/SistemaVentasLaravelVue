@@ -88,10 +88,10 @@ class VentaController extends Controller
         }
 
         //lo obtenido a traves de AJAX
-        $idIngreso=$request->id;
+        $idVenta=$request->id;
         $detalles= DetalleVenta::join('articulos','detalle_ventas.idarticulo','=','articulos.id')
-                ->select('detalle_ventas.cantidad','detalle_ventas.precio','articulos.nombre as articulo')
-                ->where('detalle_ventas.idingreso','=',$idIngreso)    
+                ->select('detalle_ventas.cantidad','detalle_ventas.descuento','detalle_ventas.precio','articulos.nombre as articulo')
+                ->where('detalle_ventas.idventa','=',$idVenta)    
                 ->orderBy('detalle_ventas.id','desc')->get();
 
         return ['detalles'=>$detalles];
