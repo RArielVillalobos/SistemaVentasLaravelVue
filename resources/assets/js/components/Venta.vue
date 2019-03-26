@@ -1011,7 +1011,7 @@
                                 
 
             },
-            desactivarIngreso(id){
+            desactivarVenta(id){
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
@@ -1019,7 +1019,7 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                    title: 'Esta Seguro de anular el ingreso?',
+                    title: 'Esta Seguro de anular la Venta?',
 
                     type: 'warning',
                     showCancelButton: true,
@@ -1032,11 +1032,11 @@
                         //usamos el verbo post en vez de get
                         //primer parametro la ruta del controlador que registra
                         //segundo parametro enviaremos los valores q recibira el controlador
-                        axios.put('/ingreso/desactivar',
+                        axios.put('/venta/desactivar',
                             {'id':id
                             }).then(function(){
 
-                            me.listarIngreso(1,'','num_comprobante');
+                            me.listarVenta(1,'','num_comprobante');
                             swalWithBootstrapButtons.fire(
                                 'Anulado!',
                                 'El registro ha sido anulado con exito.',

@@ -5980,7 +5980,7 @@ __webpack_require__.r(__webpack_exports__);
       this.modal = 1;
       this.tituloModal = 'Seleccione uno o varios articulos';
     },
-    desactivarIngreso: function desactivarIngreso(id) {
+    desactivarVenta: function desactivarVenta(id) {
       var _this = this;
 
       var swalWithBootstrapButtons = Swal.mixin({
@@ -5989,7 +5989,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsStyling: false
       });
       swalWithBootstrapButtons.fire({
-        title: 'Esta Seguro de anular el ingreso?',
+        title: 'Esta Seguro de anular la Venta?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -6001,10 +6001,10 @@ __webpack_require__.r(__webpack_exports__);
           //primer parametro la ruta del controlador que registra
           //segundo parametro enviaremos los valores q recibira el controlador
 
-          axios.put('/ingreso/desactivar', {
+          axios.put('/venta/desactivar', {
             'id': id
           }).then(function () {
-            me.listarIngreso(1, '', 'num_comprobante');
+            me.listarVenta(1, '', 'num_comprobante');
             swalWithBootstrapButtons.fire('Anulado!', 'El registro ha sido anulado con exito.', 'success');
           }).catch(function (error) {
             console.log(error);
