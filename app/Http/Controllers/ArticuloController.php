@@ -11,10 +11,10 @@ class ArticuloController extends Controller
     
     public function index(Request $request)
     {
-        /*if(!$request->ajax()){
+        if(!$request->ajax()){
             return redirect('/');
           
-        }*/
+        }
            // $categorias=Categoria::all();
             
             //lo obtenido a traves de AJAX
@@ -196,6 +196,21 @@ class ArticuloController extends Controller
         $articulo->save();
 
     
-} 
+}
+
+    public function listarPdf(){
+        $articulos= Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
+            ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre',
+                'categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock',
+                'articulos.descripcion','articulos.condicion')
+            ->where('articulos.stock','>','0')
+            ->orderBy('articulos.nombre','desc')->get();
+
+        $cont=Articulo::count();
+
+        $pdf=\PDF::loadView('pdf.articulospdf',['articulos'=>$articulos,'cont'=>$cont]);
+        return $pdf->download('articulos.pdf');
+
+    }
  
 }
