@@ -65,6 +65,7 @@ Route::group(['middleware'=>['auth']],function (){
         Route::get('/venta/obtenerCabecera','VentaController@obtenerCabecera');
         Route::get('/venta/obtenerDetalles','VentaController@obtenerDetalles');
         Route::get('/venta/selectCliente','ClienteController@selectcliente');
+        Route::get('/venta/pdf/{id}','VentaController@pdf');
     });
 
     Route::group(['middleware'=>['Administrador']],function(){
@@ -117,6 +118,7 @@ Route::group(['middleware'=>['auth']],function (){
         Route::get('/venta/obtenerCabecera','VentaController@obtenerCabecera');
         Route::get('/venta/obtenerDetalles','VentaController@obtenerDetalles');
         Route::get('/venta/selectCliente','ClienteController@selectcliente');
+        Route::get('/venta/pdf/{id}','VentaController@pdf');
 
 
 
