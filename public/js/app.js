@@ -5585,6 +5585,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5729,6 +5732,9 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    pdfVenta: function pdfVenta(id) {
+      window.open('http://127.0.0.1:8000/venta/pdf/' + id + ',' + '_blank');
+    },
     //el page recibe el numero de pagina que queremos mostrar
     cambiarPagina: function cambiarPagina(page, buscar, criterio) {
       var me = this; //Actualiza la pagina Actual
@@ -5861,6 +5867,7 @@ __webpack_require__.r(__webpack_exports__);
         me.codig = '';
         me.descuento = 0;
         me.arrayDetalle = [];
+        window.open('http://127.0.0.1:8000/venta/pdf' + response.data.id + ',' + '_blank');
       }).catch(function (error) {
         console.log(error);
       });
@@ -51770,6 +51777,20 @@ var render = function() {
                                       }
                                     },
                                     [_c("i", { staticClass: "icon-eye" })]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-info btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.pdfVenta(venta.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "icon-doc" })]
                                   ),
                                   _vm._v(
                                     " \n                                    "

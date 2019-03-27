@@ -161,6 +161,9 @@ class VentaController extends Controller
                 }
 
             DB::commit();
+            //retornamos el id para la funcion de generar automatiacamente el pdf despues de registrar la venta
+            //esto de generar pdf automatico despues de la venta  no funciona por ahora asi que el return no estaria sirviendo de mucho
+            return ['id'=>$venta->id];
 
         } catch (\Exception $e) {
             DB::rollBack();
