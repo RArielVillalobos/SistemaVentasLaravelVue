@@ -24,6 +24,7 @@ Vue.component('rol',require('./components/Rol.vue').default);
 Vue.component('user',require('./components/User.vue').default);
 Vue.component('ingreso',require('./components/Ingreso.vue').default);
 Vue.component('venta',require('./components/Venta.vue').default);
+Vue.component('dashboard',require('./components/Dashboard.vue').default);
 
 
 const app = new Vue({
