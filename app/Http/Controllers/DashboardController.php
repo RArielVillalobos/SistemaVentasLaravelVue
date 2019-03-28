@@ -19,6 +19,14 @@ class DashboardController extends Controller
             //agrupamos por mes y anio para poder usar la funcion SUM que esta arriba
             ->groupBy(DB::raw('MONTH(i.fecha_hora)'),DB::raw('YEAR(i.fecha_hora)'))->get();
 
-        return ['ingresos'=>$ingresos,'anio'=>$anio];
+        $ventas=DB::table('ventas as v')
+            ->select(DB::raw('MONTH(v.fecha_hora) as mes'),
+                DB::raw('YEAR(v.fecha_hora) as anio'),
+                DB::raw('SUM(v.total) as total'))
+            ->whereYear('v.fecha_hora',$anio)
+            //agrupamos por mes y anio para poder usar la funcion SUM que esta arriba
+            ->groupBy(DB::raw('MONTH(v.fecha_hora)'),DB::raw('YEAR(v.fecha_hora)'))->get();
+
+        return ['ingresos'=>$ingresos,'ventas'=>$ventas,'anio'=>$anio];
     }
 }

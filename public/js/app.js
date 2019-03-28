@@ -3112,7 +3112,12 @@ __webpack_require__.r(__webpack_exports__);
       charIngreso: null,
       ingresos: [],
       varTotalIngreso: [],
-      varMesIngreso: []
+      varMesIngreso: [],
+      varVenta: null,
+      charVenta: null,
+      ventas: [],
+      varTotalVenta: [],
+      varMesVenta: []
     };
   },
   methods: {
@@ -3124,6 +3129,18 @@ __webpack_require__.r(__webpack_exports__);
         me.ingresos = respuesta.ingresos; //cargamos los datos del chart
 
         me.loadIngresos();
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    getVentas: function getVentas() {
+      var me = this;
+      var url = '/dashboard';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.ventas = respuesta.ventas; //cargamos los datos del chart
+
+        me.loadVentas();
       }).catch(function (error) {
         console.log(error);
       });
@@ -3157,10 +3174,41 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       });
+    },
+    loadVentas: function loadVentas() {
+      var me = this;
+      me.ventas.map(function (x) {
+        me.varMesVenta.push(x.mes);
+        me.varTotalVenta.push(x.total);
+      });
+      me.varVenta = document.getElementById('ventas').getContext('2d');
+      me.charVenta = new Chart(me.varVenta, {
+        type: 'bar',
+        data: {
+          labels: me.varMesVenta,
+          datasets: [{
+            label: 'Ventas',
+            data: me.varTotalVenta,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
     }
   },
   mounted: function mounted() {
     this.getIngresos();
+    this.getVentas();
   }
 });
 
