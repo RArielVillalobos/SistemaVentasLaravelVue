@@ -32,7 +32,7 @@
                 <rol></rol>
             </template>
             <template v-if="menu==9">
-                <h1>Reporte de Ingresos</h1>
+               <consultaingreso></consultaingreso>
             </template>
             <template v-if="menu==10">
                 <h1>Reporte de Ventas</h1>
@@ -82,7 +82,7 @@
             </template>
 
             <template v-if="menu==9">
-                <h1>Reporte de Ingresos</h1>
+                <consultaingreso></consultaingreso>
             </template>
 
             <template v-if="menu==11">
